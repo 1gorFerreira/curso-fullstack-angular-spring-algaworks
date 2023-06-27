@@ -10,6 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/categories")
@@ -33,8 +34,10 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public Category findById(@PathVariable  Long id){
-        return categoryRepository.findById(id).orElse(null);
+    public ResponseEntity<Category> findById(@PathVariable  Long id){
+        Optional<Category> category = categoryRepository.findById(id);
+        return category.isPresent() ?
+                ResponseEntity.ok(category.get()) : ResponseEntity.notFound().build();
     }
 
 }
