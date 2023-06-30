@@ -7,9 +7,16 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @ControllerAdvice
 public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
@@ -19,11 +26,30 @@ public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-
         String userMessage = messageSource.getMessage("invalid.message", null, LocaleContextHolder.getLocale());
         String devMessage = ex.getCause().toString();
+        List<Error> errors = Arrays.asList(new Error(userMessage, devMessage));
+        return handleExceptionInternal(ex, errors, headers, status, request);
+    }
 
-        return handleExceptionInternal(ex, new Error(userMessage, devMessage), headers, status, request);
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+
+        List<Error> errors = createErrorList(ex.getBindingResult());
+
+        return handleExceptionInternal(ex, errors, headers, status, request);
+    }
+
+    private List<Error> createErrorList(BindingResult bindingResult){
+        List<Error> errors = new ArrayList<>();
+
+        for(FieldError fieldError : bindingResult.getFieldErrors()){
+            String userMessage = messageSource.getMessage(fieldError, LocaleContextHolder.getLocale());
+            String devMessage = fieldError.toString();
+            errors.add(new Error(userMessage, devMessage));
+        }
+
+        return errors;
     }
 
     public static class Error {

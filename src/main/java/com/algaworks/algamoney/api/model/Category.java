@@ -1,6 +1,8 @@
 package com.algaworks.algamoney.api.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.util.Objects;
 
@@ -12,6 +14,8 @@ public class Category {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @NotNull
+    @Size(min = 3, max = 20)
     private String name;
 
     public Long getId() {
