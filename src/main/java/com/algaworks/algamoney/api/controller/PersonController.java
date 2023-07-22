@@ -59,4 +59,10 @@ public class PersonController {
         return ResponseEntity.ok(personSaved);
     }
 
+    @PutMapping("/{id}/active")
+    public ResponseEntity<Void> updateActiveProperty(@PathVariable Long id, @RequestBody Boolean active){
+        personService.updateActiveProperty(id, active);
+        return ResponseEntity.noContent().build();
+    }
+
 }
