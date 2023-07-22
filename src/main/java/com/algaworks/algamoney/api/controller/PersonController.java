@@ -3,8 +3,10 @@ package com.algaworks.algamoney.api.controller;
 import com.algaworks.algamoney.api.event.ResourceCreatedEvent;
 import com.algaworks.algamoney.api.model.Person;
 import com.algaworks.algamoney.api.respository.PersonRepository;
+import com.algaworks.algamoney.api.service.PersonService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -23,6 +25,9 @@ public class PersonController {
 
     @Autowired
     private ApplicationEventPublisher publisher;
+
+    @Autowired
+    private PersonService personService;
 
     @GetMapping("/{id}")
     public ResponseEntity<Person> findById(@PathVariable Long id){
@@ -47,4 +52,11 @@ public class PersonController {
         personRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Person> update(@PathVariable Long id, @Valid @RequestBody Person person){
+        Person personSaved = personService.update(id, person);
+        return ResponseEntity.ok(personSaved);
+    }
+
 }
