@@ -1,5 +1,6 @@
 package com.algaworks.algamoney.api.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -7,14 +8,18 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-@Table(name = "release")
+@Table(name = "`release`")
 public class Release {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String description;
+
+    @JsonFormat(pattern =  "dd/MM/yyyy")
     private LocalDate dueDate;
+
+    @JsonFormat(pattern =  "dd/MM/yyyy")
     private LocalDate paymentDate;
 
     private BigDecimal value;
