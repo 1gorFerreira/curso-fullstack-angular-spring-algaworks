@@ -2,6 +2,7 @@ package com.algaworks.algamoney.api.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -14,25 +15,32 @@ public class Release {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull
     private String description;
 
+    @NotNull
     @JsonFormat(pattern =  "dd/MM/yyyy")
     private LocalDate dueDate;
 
     @JsonFormat(pattern =  "dd/MM/yyyy")
     private LocalDate paymentDate;
 
+    @NotNull
     private BigDecimal value;
 
     private String observation;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private ReleaseType type;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "id_category")
     private Category category;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "id_person")
     private Person person;
