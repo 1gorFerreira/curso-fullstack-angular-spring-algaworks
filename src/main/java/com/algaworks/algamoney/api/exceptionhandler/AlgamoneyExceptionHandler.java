@@ -1,5 +1,6 @@
 package com.algaworks.algamoney.api.exceptionhandler;
 
+import com.algaworks.algamoney.api.service.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -29,8 +30,16 @@ public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
     @Autowired
     private MessageSource messageSource;
 
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<Object> handleBusinessException(BusinessException ex, WebRequest request){
+        String userMessage = messageSource.getMessage("business.problem", null, LocaleContextHolder.getLocale());
+        String devMessage = ex.toString();
+        List<Error> errors = Arrays.asList(new Error(userMessage, devMessage));
+        return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
-    public ResponseEntity<Object> handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException ex,WebRequest request){
+    public ResponseEntity<Object> handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException ex, WebRequest request){
         String userMessage = messageSource.getMessage("resource.operation-not-allowed", null, LocaleContextHolder.getLocale());
         String devMessage = ex.toString();
         List<Error> errors = Arrays.asList(new Error(userMessage, devMessage));

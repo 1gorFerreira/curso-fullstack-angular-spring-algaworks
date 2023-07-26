@@ -1,5 +1,6 @@
 package com.algaworks.algamoney.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -51,6 +52,12 @@ public class Person {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    @JsonIgnore //Jackson
+    @Transient // Hibernate
+    public Boolean isInactive(){
+        return !this.active;
     }
 
     @Override
