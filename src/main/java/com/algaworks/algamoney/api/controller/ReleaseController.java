@@ -40,9 +40,15 @@ public class ReleaseController {
     }
 
     @PostMapping
-    public ResponseEntity<Release> criar(@Valid @RequestBody Release release, HttpServletResponse response) {
+    public ResponseEntity<Release> create(@Valid @RequestBody Release release, HttpServletResponse response) {
         Release releaseSaved = releaseService.save(release);
         publisher.publishEvent(new ResourceCreatedEvent(this, response, releaseSaved.getId()));
         return ResponseEntity.status(HttpStatus.CREATED).body(releaseSaved);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        releaseService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

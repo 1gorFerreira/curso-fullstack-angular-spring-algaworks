@@ -1,6 +1,6 @@
 package com.algaworks.algamoney.api.service.exception;
 
-public class PersonNotFoundException extends BusinessException {
+public class PersonNotFoundException extends EntityNotFoundException {
     private static final long serialVersionUID = 1L;
 
     public PersonNotFoundException(String msg) {

@@ -1,6 +1,7 @@
 package com.algaworks.algamoney.api.exceptionhandler;
 
 import com.algaworks.algamoney.api.service.exception.BusinessException;
+import com.algaworks.algamoney.api.service.exception.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -36,6 +37,14 @@ public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
         String devMessage = ex.toString();
         List<Error> errors = Arrays.asList(new Error(userMessage, devMessage));
         return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException ex, WebRequest request){
+        String userMessage = messageSource.getMessage("resource.not-found", null, LocaleContextHolder.getLocale());
+        String devMessage = ex.toString();
+        List<Error> errors = Arrays.asList(new Error(userMessage, devMessage));
+        return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
