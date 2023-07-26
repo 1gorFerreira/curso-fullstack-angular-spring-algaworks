@@ -3,6 +3,7 @@ package com.algaworks.algamoney.api.service;
 import com.algaworks.algamoney.api.model.Person;
 import com.algaworks.algamoney.api.model.Release;
 import com.algaworks.algamoney.api.respository.ReleaseRepository;
+import com.algaworks.algamoney.api.respository.filter.ReleaseFilter;
 import com.algaworks.algamoney.api.service.exception.PersonInactiveException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,8 @@ public class ReleaseService {
     @Autowired
     private PersonService personService;
 
-    public List<Release> findAll(){
-        return releaseRepository.findAll();
+    public List<Release> findAll(ReleaseFilter releaseFilter){
+        return releaseRepository.filter(releaseFilter);
     }
 
     public Optional<Release> findById(Long id){

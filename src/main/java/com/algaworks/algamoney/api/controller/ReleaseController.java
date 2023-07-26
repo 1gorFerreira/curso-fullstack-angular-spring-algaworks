@@ -3,6 +3,7 @@ package com.algaworks.algamoney.api.controller;
 import com.algaworks.algamoney.api.event.ResourceCreatedEvent;
 import com.algaworks.algamoney.api.model.Release;
 import com.algaworks.algamoney.api.respository.ReleaseRepository;
+import com.algaworks.algamoney.api.respository.filter.ReleaseFilter;
 import com.algaworks.algamoney.api.service.ReleaseService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,8 +28,8 @@ public class ReleaseController {
     private ApplicationEventPublisher publisher;
 
     @GetMapping
-    public ResponseEntity<List<Release>> findAll(){
-        List<Release> releases = releaseService.findAll();
+    public ResponseEntity<List<Release>> findAll(ReleaseFilter releaseFilter){
+        List<Release> releases = releaseService.findAll(releaseFilter);
         return ResponseEntity.ok(releases);
     }
 
