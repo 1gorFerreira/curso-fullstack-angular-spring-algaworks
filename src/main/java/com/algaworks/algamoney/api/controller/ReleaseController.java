@@ -10,6 +10,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +30,8 @@ public class ReleaseController {
     private ApplicationEventPublisher publisher;
 
     @GetMapping
-    public ResponseEntity<List<Release>> findAll(ReleaseFilter releaseFilter){
-        List<Release> releases = releaseService.findAll(releaseFilter);
+    public ResponseEntity<Page<Release>> findAll(ReleaseFilter releaseFilter, Pageable pageable){
+        Page<Release> releases = releaseService.findAll(releaseFilter, pageable);
         return ResponseEntity.ok(releases);
     }
 
