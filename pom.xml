@@ -18,6 +18,12 @@
 	</properties>
 	<dependencies>
 
+		<!-- Security -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
 		<!-- Banco de dados e JPA -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
