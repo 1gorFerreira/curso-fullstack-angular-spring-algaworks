@@ -1,5 +1,11 @@
 package com.algaworks.algamoney.api.config;
 
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.RSAKey;
+import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
+import com.nimbusds.jose.jwk.source.JWKSource;
+import com.nimbusds.jose.proc.SecurityContext;
+import org.springframework.core.io.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,9 +24,12 @@ import org.springframework.security.oauth2.server.authorization.settings.OAuth2T
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.io.InputStream;
+import java.security.KeyStore;
 import java.time.Duration;
 import java.util.Arrays;
 
+//https://docs.spring.io/spring-authorization-server/docs/current/reference/html/getting-started.html#developing-your-first-application
 @Configuration
 public class AuthorizationServerConfig {
 
@@ -54,10 +63,25 @@ public class AuthorizationServerConfig {
                     scope.add("WRITE");
                 })
                 .tokenSettings(TokenSettings.builder()
-                        .accessTokenFormat(OAuth2TokenFormat.REFERENCE) // Token Opaco
+                        .accessTokenFormat(OAuth2TokenFormat.SELF_CONTAINED)
                         .accessTokenTimeToLive(Duration.ofMinutes(30))
                         .build())
                 .build();
         return new InMemoryRegisteredClientRepository(Arrays.asList(angular));
+    }
+
+    @Bean
+    public JWKSource<SecurityContext> jwkSource(JwtKeyStoreProperties properties) throws Exception{
+        char[] keyStorePass = properties.getPassword().toCharArray();
+        String keyPairAlias = properties.getKeypairAlias();
+
+        Resource jksLocation = properties.getJksLocation();
+        InputStream inputStream = jksLocation.getInputStream();
+        KeyStore keyStore = KeyStore.getInstance("JKS");
+        keyStore.load(inputStream, keyStorePass);
+
+        RSAKey rsaKey = RSAKey.load(keyStore, keyPairAlias, keyStorePass);
+
+        return new ImmutableJWKSet<>(new JWKSet(rsaKey));
     }
 }
