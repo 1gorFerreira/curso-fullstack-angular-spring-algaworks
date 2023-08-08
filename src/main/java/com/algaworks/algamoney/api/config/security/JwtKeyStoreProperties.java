@@ -1,4 +1,4 @@
-package com.algaworks.algamoney.api.config;
+package com.algaworks.algamoney.api.config.security;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

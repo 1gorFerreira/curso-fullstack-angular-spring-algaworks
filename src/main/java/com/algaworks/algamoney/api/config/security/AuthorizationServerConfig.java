@@ -1,4 +1,4 @@
-package com.algaworks.algamoney.api.config;
+package com.algaworks.algamoney.api.config.security;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -18,7 +18,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
@@ -30,7 +29,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import java.io.InputStream;
 import java.security.KeyStore;
-import java.time.Duration;
 
 //https://docs.spring.io/spring-authorization-server/docs/current/reference/html/getting-started.html#developing-your-first-application
 @Configuration
