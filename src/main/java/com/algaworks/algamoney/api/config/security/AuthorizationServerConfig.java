@@ -57,15 +57,6 @@ public class AuthorizationServerConfig {
     }
 
     @Bean
-    public UserDetailsService users() {
-        UserDetails user = User.withUsername("admin")
-                .password(passwordEncoder.encode("123"))
-                .roles("USER")
-                .build();
-        return new InMemoryUserDetailsManager(user);
-    }
-
-    @Bean
     public RegisteredClientRepository registeredClientRepository(JdbcOperations jdbcOperations){
         return new JdbcRegisteredClientRepository(jdbcOperations);
     }
