@@ -12,6 +12,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -29,12 +30,14 @@ public class PersonController {
     @Autowired
     private PersonService personService;
 
+    @PreAuthorize("hasAuthority('SEARCH_PERSON')")
     @GetMapping("/{id}")
     public ResponseEntity<Person> findById(@PathVariable Long id){
         Optional<Person> person = personRepository.findById(id);
         return person.isPresent() ? ResponseEntity.ok(person.get()) : ResponseEntity.notFound().build();
     }
 
+    @PreAuthorize("hasAuthority('REGISTER_PERSON')")
     @PostMapping
     public ResponseEntity<Person> create(@Valid @RequestBody Person person, HttpServletResponse response){
         Person personSaved = personRepository.save(person);
@@ -42,6 +45,7 @@ public class PersonController {
         return ResponseEntity.status(HttpStatus.CREATED).body(personSaved);
     }
 
+    @PreAuthorize("hasAuthority('DELETE_PERSON')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remove(@PathVariable Long id){
 

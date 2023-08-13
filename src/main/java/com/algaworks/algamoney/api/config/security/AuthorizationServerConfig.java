@@ -1,5 +1,6 @@
 package com.algaworks.algamoney.api.config.security;
 
+import com.algaworks.algamoney.api.respository.UserRepository;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
@@ -14,9 +15,12 @@ import org.springframework.core.io.Resource;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
@@ -24,11 +28,15 @@ import org.springframework.security.oauth2.server.authorization.client.JdbcRegis
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
+import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
+import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import java.io.InputStream;
 import java.security.KeyStore;
+import java.util.HashSet;
+import java.util.Set;
 
 //https://docs.spring.io/spring-authorization-server/docs/current/reference/html/getting-started.html#developing-your-first-application
 @Configuration
@@ -74,5 +82,27 @@ public class AuthorizationServerConfig {
         RSAKey rsaKey = RSAKey.load(keyStore, keyPairAlias, keyStorePass);
 
         return new ImmutableJWKSet<>(new JWKSet(rsaKey));
+    }
+
+    @Bean
+    public OAuth2TokenCustomizer<JwtEncodingContext> jwtCustomizer(UserRepository userRepository){
+        return context -> {
+            Authentication authentication = context.getPrincipal();
+
+            if(authentication.getPrincipal() instanceof User){
+                User user = (User) authentication.getPrincipal();
+
+                com.algaworks.algamoney.api.model.User systemUser = userRepository.findByEmail(user.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+                Set<String> authorities = new HashSet<>();
+                for (GrantedAuthority authority : user.getAuthorities()) {
+                    authorities.add(authority.getAuthority());
+                }
+
+                context.getClaims().claim("user_id", systemUser.getId().toString());
+                context.getClaims().claim("authorities", authorities);
+            }
+
+        };
     }
 }

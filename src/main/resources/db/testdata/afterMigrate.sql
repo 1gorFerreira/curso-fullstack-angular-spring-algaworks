@@ -4,6 +4,9 @@ delete from category;
 delete from person;
 delete from `release`;
 delete from oauth2_registered_client;
+delete from permission;
+delete from user_permission;
+delete from `user`;
 
 set foreign_key_checks = 1;
 
@@ -44,7 +47,36 @@ INSERT INTO `release` (description, due_date, payment_date, value, observation, 
 INSERT INTO `release` (description, due_date, payment_date, value, observation, type, id_category, id_person) values ('Café', '2017-04-10', '2017-04-10', 4.32, null, 'EXPENSE', 4, 2);
 INSERT INTO `release` (description, due_date, payment_date, value, observation, type, id_category, id_person) values ('Lanche', '2017-06-10', null, 10.20, null, 'EXPENSE', 4, 1);
 
+INSERT INTO user (id, name, email, password) values (1, 'Administrador', 'admin@algamoney.com', '$2a$10$X607ZPhQ4EgGNaYKt3n4SONjIv9zc.VMWdEuhCuba7oLAL5IvcL5.');
+INSERT INTO user (id, name, email, password) values (2, 'Maria Silva', 'maria@algamoney.com', '$2a$10$Zc3w6HyuPOPXamaMhh.PQOXvDnEsadztbfi6/RyZWJDzimE8WQjaq');
+
+INSERT INTO permission (id, description) values (1, 'REGISTER_CATEGORY');
+INSERT INTO permission (id, description) values (2, 'SEARCH_CATEGORY');
+
+INSERT INTO permission (id, description) values (3, 'REGISTER_PERSON');
+INSERT INTO permission (id, description) values (4, 'REMOVE_PERSON');
+INSERT INTO permission (id, description) values (5, 'SEARCH_PERSON');
+
+INSERT INTO permission (id, description) values (6, 'REGISTER_RELEASE');
+INSERT INTO permission (id, description) values (7, 'REMOVE_RELEASE');
+INSERT INTO permission (id, description) values (8, 'SEARCH_RELEASE');
+
+-- admin
+INSERT INTO user_permission (id_user, id_permission) values (1, 1);
+INSERT INTO user_permission (id_user, id_permission) values (1, 2);
+INSERT INTO user_permission (id_user, id_permission) values (1, 3);
+INSERT INTO user_permission (id_user, id_permission) values (1, 4);
+INSERT INTO user_permission (id_user, id_permission) values (1, 5);
+INSERT INTO user_permission (id_user, id_permission) values (1, 6);
+INSERT INTO user_permission (id_user, id_permission) values (1, 7);
+INSERT INTO user_permission (id_user, id_permission) values (1, 8);
+
+-- maria
+INSERT INTO user_permission (id_user, id_permission) values (2, 2);
+INSERT INTO user_permission (id_user, id_permission) values (2, 5);
+INSERT INTO user_permission (id_user, id_permission) values (2, 8);
+
 INSERT INTO oauth2_registered_client
 (id, client_id, client_id_issued_at, client_secret, client_secret_expires_at, client_name, client_authentication_methods, authorization_grant_types, redirect_uris, scopes, client_settings, token_settings)
-VALUES('1', 'angular', '2023-08-04 19:04:12', '$2a$12$eyV2zgKp5tOHTPc./NaPeuu9ykZi0FeapMi7d9tA6JZONm82647ha', NULL, 'angular', 'client_secret_basic', 'refresh_token,authorization_code', 'http://127.0.0.1:8080/authorized', 'READ,WRITE', '{"@class":"java.util.Collections$UnmodifiableMap","settings.client.require-proof-key":false,"settings.client.require-authorization-consent":true}', '{"@class":"java.util.Collections$UnmodifiableMap","settings.token.reuse-refresh-tokens":false,"settings.token.access-token-time-to-live":["java.time.Duration",900.000000000],"settings.token.access-token-format":{"@class":"org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat","value":"self-contained"},"settings.token.refresh-token-time-to-live":["java.time.Duration",86400.000000000],"settings.token.authorization-code-time-to-live":["java.time.Duration",300.000000000]}');
+VALUES('1', 'angular', '2023-08-04 19:04:12', '$2a$12$eyV2zgKp5tOHTPc./NaPeuu9ykZi0FeapMi7d9tA6JZONm82647ha', NULL, 'angular', 'client_secret_basic', 'refresh_token,authorization_code', 'http://127.0.0.1:8080/authorized', 'READ,WRITE', '{"@class":"java.util.Collections$UnmodifiableMap","settings.client.require-proof-key":false,"settings.client.require-authorization-consent":false}', '{"@class":"java.util.Collections$UnmodifiableMap","settings.token.reuse-refresh-tokens":false,"settings.token.access-token-time-to-live":["java.time.Duration",900.000000000],"settings.token.access-token-format":{"@class":"org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat","value":"self-contained"},"settings.token.refresh-token-time-to-live":["java.time.Duration",86400.000000000],"settings.token.authorization-code-time-to-live":["java.time.Duration",300.000000000]}');
 
