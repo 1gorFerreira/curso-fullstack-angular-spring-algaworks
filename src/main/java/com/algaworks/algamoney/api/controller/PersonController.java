@@ -30,14 +30,14 @@ public class PersonController {
     @Autowired
     private PersonService personService;
 
-    @PreAuthorize("hasAuthority('SEARCH_PERSON')")
+    @PreAuthorize("hasAuthority('SCOPE_READ') and hasAuthority('SEARCH_PERSON')")
     @GetMapping("/{id}")
     public ResponseEntity<Person> findById(@PathVariable Long id){
         Optional<Person> person = personRepository.findById(id);
         return person.isPresent() ? ResponseEntity.ok(person.get()) : ResponseEntity.notFound().build();
     }
 
-    @PreAuthorize("hasAuthority('REGISTER_PERSON')")
+    @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('REGISTER_PERSON')")
     @PostMapping
     public ResponseEntity<Person> create(@Valid @RequestBody Person person, HttpServletResponse response){
         Person personSaved = personRepository.save(person);
@@ -45,7 +45,7 @@ public class PersonController {
         return ResponseEntity.status(HttpStatus.CREATED).body(personSaved);
     }
 
-    @PreAuthorize("hasAuthority('DELETE_PERSON')")
+    @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('REMOVE_PERSON')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remove(@PathVariable Long id){
 
@@ -57,12 +57,14 @@ public class PersonController {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('REGISTER_PERSON')")
     @PutMapping("/{id}")
     public ResponseEntity<Person> update(@PathVariable Long id, @Valid @RequestBody Person person){
         Person personSaved = personService.update(id, person);
         return ResponseEntity.ok(personSaved);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('REGISTER_PERSON')")
     @PutMapping("/{id}/active")
     public ResponseEntity<Void> updateActiveProperty(@PathVariable Long id, @RequestBody Boolean active){
         personService.updateActiveProperty(id, active);

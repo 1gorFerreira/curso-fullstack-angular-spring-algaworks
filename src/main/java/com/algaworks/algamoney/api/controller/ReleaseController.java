@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,18 +30,21 @@ public class ReleaseController {
     @Autowired
     private ApplicationEventPublisher publisher;
 
+    @PreAuthorize("hasAuthority('SCOPE_READ') and hasAuthority('SEARCH_RELEASE')")
     @GetMapping
     public ResponseEntity<Page<Release>> findAll(ReleaseFilter releaseFilter, Pageable pageable){
         Page<Release> releases = releaseService.findAll(releaseFilter, pageable);
         return ResponseEntity.ok(releases);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_READ') and hasAuthority('SEARCH_RELEASE')")
     @GetMapping("/{id}")
     public ResponseEntity<Release> findById(@PathVariable Long id){
         Optional<Release> release = releaseService.findById(id);
         return release.isPresent() ? ResponseEntity.ok(release.get()) : ResponseEntity.notFound().build();
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('REGISTER_RELEASE')")
     @PostMapping
     public ResponseEntity<Release> create(@Valid @RequestBody Release release, HttpServletResponse response) {
         Release releaseSaved = releaseService.save(release);
@@ -48,6 +52,7 @@ public class ReleaseController {
         return ResponseEntity.status(HttpStatus.CREATED).body(releaseSaved);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('REMOVE_RELEASE')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         releaseService.delete(id);
