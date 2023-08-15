@@ -4,6 +4,7 @@ import com.algaworks.algamoney.api.event.ResourceCreatedEvent;
 import com.algaworks.algamoney.api.model.Release;
 import com.algaworks.algamoney.api.respository.ReleaseRepository;
 import com.algaworks.algamoney.api.respository.filter.ReleaseFilter;
+import com.algaworks.algamoney.api.respository.projection.ReleaseResume;
 import com.algaworks.algamoney.api.service.ReleaseService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,11 +30,20 @@ public class ReleaseController {
 
     @Autowired
     private ApplicationEventPublisher publisher;
+    @Autowired
+    private ReleaseRepository releaseRepository;
 
     @PreAuthorize("hasAuthority('SCOPE_READ') and hasAuthority('SEARCH_RELEASE')")
     @GetMapping
     public ResponseEntity<Page<Release>> findAll(ReleaseFilter releaseFilter, Pageable pageable){
         Page<Release> releases = releaseService.findAll(releaseFilter, pageable);
+        return ResponseEntity.ok(releases);
+    }
+
+    @PreAuthorize("hasAuthority('SCOPE_READ') and hasAuthority('SEARCH_RELEASE')")
+    @GetMapping(params = "resume")
+    public ResponseEntity<Page<ReleaseResume>> resume(ReleaseFilter releaseFilter, Pageable pageable){
+        Page<ReleaseResume> releases = releaseRepository.resume(releaseFilter, pageable);
         return ResponseEntity.ok(releases);
     }
 
