@@ -99,7 +99,7 @@ public class AuthorizationServerConfig {
                     authorities.add(authority.getAuthority());
                 }
 
-                context.getClaims().claim("user_id", systemUser.getId().toString());
+                context.getClaims().claim("name", systemUser.getName());
                 context.getClaims().claim("authorities", authorities);
             }
 
