@@ -10,6 +10,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,6 +31,13 @@ public class PersonController {
 
     @Autowired
     private PersonService personService;
+
+    @GetMapping
+    @PreAuthorize("hasAuthority('SEARCH_PERSON')")
+    public ResponseEntity<Page<Person>> search(@RequestParam(required = false, defaultValue = "") String name, Pageable pageable) {
+        Page<Person> persons = personRepository.findByNameContaining(name, pageable);
+        return ResponseEntity.ok(persons);
+    }
 
     @PreAuthorize("hasAuthority('SCOPE_READ') and hasAuthority('SEARCH_PERSON')")
     @GetMapping("/{id}")
