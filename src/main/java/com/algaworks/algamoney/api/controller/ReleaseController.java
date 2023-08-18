@@ -62,6 +62,13 @@ public class ReleaseController {
         return ResponseEntity.status(HttpStatus.CREATED).body(releaseSaved);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('REGISTER_RELEASE')")
+    @PutMapping("/{id}")
+    public ResponseEntity<Release> update(@PathVariable Long id, @Valid @RequestBody Release release){
+        Release newRelease = releaseService.update(id, release);
+        return ResponseEntity.ok(newRelease);
+    }
+
     @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('REMOVE_RELEASE')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
