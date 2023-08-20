@@ -2,6 +2,7 @@ package com.algaworks.algamoney.api.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.Customizer;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
+@Profile("oauth-security")
 public class ResourceServerConfig {
 
     @Bean
