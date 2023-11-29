@@ -20,7 +20,7 @@
     </div>
 
     <div class="col-12">
-      <button pButton pRipple label="Submit"></button>
+      <p-button label="Submit"></p-button>
     </div>
 
   </div>
@@ -36,6 +36,7 @@
             <th class="col-date-header">DueDate</th>
             <th class="col-date-header">Payment</th>
             <th class="col-value-header">Value</th>
+            <th></th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-releases>
@@ -44,10 +45,18 @@
                 <td>{{ releases.description }}</td>
                 <td class="col-date-content">{{ releases.dueDate }}</td>
                 <td class="col-date-content">{{ releases.paymentDate }}</td>
-                <td class="col-value-content">{{ releases.value }}</td>
+                <td class="col-value-content" [ngStyle]="{ color: releases.type === 'DESPESA' ? 'red' : 'blue'}">{{releases.value}}</td>
+                <td class="col-actions">
+                  <p-button styleClass="col-actions" icon="pi pi-pencil" routerLink="test"></p-button>
+                  <p-button icon="pi pi-trash"></p-button>
+                </td>
             </tr>
         </ng-template>
       </p-table>
+    </div>
+
+    <div class="col-12">
+      <p-button label="New release"></p-button>
     </div>
 
   </div>

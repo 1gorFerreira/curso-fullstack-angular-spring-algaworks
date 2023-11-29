@@ -32,3 +32,9 @@ label {
 .col-date-content {
   text-align: center;
 }
+
+.col-actions {
+  margin-right: 5px;
+  text-align: right;
+  width: 90 px
+}
