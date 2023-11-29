@@ -3,14 +3,16 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TabViewModule } from 'primeng/tabview';
+import { InputTextModule } from 'primeng/inputtext';
+import { Button, ButtonModule } from 'primeng/button';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
-    TabViewModule,
+    ButtonModule,
+    InputTextModule,
     BrowserModule,
     AppRoutingModule
   ],
