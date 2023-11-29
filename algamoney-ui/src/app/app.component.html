@@ -25,4 +25,31 @@
 
   </div>
 
+  <div class="grid">
+
+    <div class="col-12">
+      <p-table [value]="releases">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Person</th>
+            <th>Description</th>
+            <th class="col-date-header">DueDate</th>
+            <th class="col-date-header">Payment</th>
+            <th class="col-value-header">Value</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-releases>
+            <tr>
+                <td>{{ releases.person }}</td>
+                <td>{{ releases.description }}</td>
+                <td class="col-date-content">{{ releases.dueDate }}</td>
+                <td class="col-date-content">{{ releases.paymentDate }}</td>
+                <td class="col-value-content">{{ releases.value }}</td>
+            </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+  </div>
+
 </div>

@@ -15,3 +15,20 @@ label {
     margin: 0 auto;
   }
 }
+
+.col-value-header {
+  width: 120px;
+  text-align: right;
+}
+
+.col-value-content {
+  text-align: right;
+}
+
+.col-date-header {
+  width: 120px;
+}
+
+.col-date-content {
+  text-align: center;
+}
