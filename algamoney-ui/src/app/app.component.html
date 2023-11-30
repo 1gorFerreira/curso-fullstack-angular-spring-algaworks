@@ -28,7 +28,7 @@
   <div class="grid">
 
     <div class="col-12">
-      <p-table [value]="releases">
+      <p-table [value]="releases" [paginator]="true" [rows]="2">
         <ng-template pTemplate="header">
           <tr>
             <th>Person</th>
