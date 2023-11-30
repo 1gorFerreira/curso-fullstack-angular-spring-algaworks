@@ -34,7 +34,10 @@ label {
 }
 
 .col-actions {
-  margin-right: 5px;
   text-align: right;
-  width: 90 px
+  width: 200px;
+}
+
+.col-actions-button {
+  margin-right: 5px;
 }
