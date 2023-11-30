@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { Button, ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
+    TooltipModule,
     TableModule,
     ButtonModule,
     InputTextModule,

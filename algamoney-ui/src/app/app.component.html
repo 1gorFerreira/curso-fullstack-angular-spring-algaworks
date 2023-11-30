@@ -47,8 +47,8 @@
                 <td class="col-date-content">{{ releases.paymentDate }}</td>
                 <td class="col-value-content" [ngStyle]="{ color: releases.type === 'DESPESA' ? 'red' : 'blue'}">{{releases.value}}</td>
                 <td class="col-actions">
-                  <p-button class="col-actions-button" icon="pi pi-pencil" routerLink="test"></p-button>
-                  <p-button icon="pi pi-trash"></p-button>
+                  <p-button class="col-actions-button" icon="pi pi-pencil" pTooltip="Edit" tooltipPosition="top" routerLink="test"></p-button>
+                  <p-button icon="pi pi-trash" pTooltip="Delete" tooltipPosition="top"></p-button>
                 </td>
             </tr>
         </ng-template>
