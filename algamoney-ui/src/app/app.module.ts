@@ -7,10 +7,12 @@ import { InputTextModule } from 'primeng/inputtext';
 import { Button, ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
+import { ReleasesSearchComponent } from './releases-search/releases-search.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ReleasesSearchComponent
   ],
   imports: [
     TooltipModule,
