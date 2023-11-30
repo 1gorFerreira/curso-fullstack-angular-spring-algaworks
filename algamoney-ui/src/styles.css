@@ -16,28 +16,38 @@ label {
   }
 }
 
-.col-value-header {
-  width: 120px;
-  text-align: right;
+.label {
+  margin: 0.5em;
 }
 
-.col-value-content {
-  text-align: right;
-}
+@media (min-width: 40em) {
+  .col-value-header {
+    width: 120px;
+    text-align: right
+  }
 
-.col-date-header {
-  width: 120px;
-}
+  .col-value {
+    text-align: right !important;
+  }
 
-.col-date-content {
-  text-align: center;
-}
+  .col-date-header {
+    width: 120px;
+  }
 
-.col-actions {
-  text-align: right;
-  width: 200px;
-}
+  .col-date {
+    text-align: center !important;
+  }
 
-.col-actions-button {
-  margin-right: 5px;
+  .col-actions-header {
+    width: 150px;
+  }
+
+  .col-actions {
+    width: 150px;
+    text-align: center !important;
+  }
+
+  .col-actions .p-button {
+    margin: 1px;
+  }
 }
