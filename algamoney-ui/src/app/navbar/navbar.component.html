@@ -3,9 +3,16 @@
   <div class="container">
     <div class="grid">
       <div class="col-12">
-        <a href="javascript:;" class="navbar-toggle"><i class="pi pi-bars"></i></a>
+        <a href="javascript:;" class="navbar-toggle" (click)="displayingMenu = !displayingMenu"><i class="pi pi-bars"></i></a>
       </div>
     </div>
   </div>
+
+  <ul class="navbar-menu" [hidden]="!displayingMenu">
+    <li class="navbar-user">Igor Ferreira</li>
+    <li class="navbar-menuitem"><a href="#">Releases</a></li>
+    <li class="navbar-menuitem"><a href="#">Persons</a></li>
+    <li class="navbar-menuitem"><a href="#">Logout</a></li>
+  </ul>
 
 </nav>
