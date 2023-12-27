@@ -16,7 +16,7 @@ import { PersonsSearchComponent } from './persons-search/persons-search.componen
     AppComponent,
     ReleasesSearchComponent,
     NavbarComponent,
-    PersonsSearchComponent
+    PersonsSearchComponent,
   ],
   imports: [
     TooltipModule,

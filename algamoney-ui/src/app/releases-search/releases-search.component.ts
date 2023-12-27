@@ -7,19 +7,19 @@ import { Component } from '@angular/core';
 })
 export class ReleasesSearchComponent {
   releases = [
-    { type: 'DESPESA', description: 'Compra de pão', dueDate: '30/06/2017',
+    { type: 'DESPESA', description: 'Compra de pão', dueDate: new Date(2017, 5, 30),
       dataPagamento: null, value: 4.55, person: 'Padaria do José' },
-    { type: 'RECEITA', description: 'Venda de software', dueDate: '10/06/2017',
-      paymentDate: '09/06/2017', value: 80000, person: 'Atacado Brasil' },
-    { type: 'DESPESA', description: 'Impostos', dueDate: '20/07/2017',
+    { type: 'RECEITA', description: 'Venda de software', dueDate: new Date(2017, 6, 10),
+      paymentDate: new Date(2017, 6, 9), value: 80000, person: 'Atacado Brasil' },
+    { type: 'DESPESA', description: 'Impostos', dueDate: new Date(2017, 7, 20),
       paymentDate: null, value: 14312, person: 'Ministério da Fazenda' },
-    { type: 'DESPESA', description: 'Mensalidade de escola', dueDate: '05/06/2017',
-      paymentDate: '30/05/2017', value: 800, person: 'Escola Abelha Rainha' },
-    { type: 'RECEITA', description: 'Venda de carro', dueDate: '18/08/2017',
+    { type: 'DESPESA', description: 'Mensalidade de escola', dueDate: new Date(2017, 6, 5),
+      paymentDate: new Date(2017, 5, 30), value: 800, person: 'Escola Abelha Rainha' },
+    { type: 'RECEITA', description: 'Venda de carro', dueDate: new Date(2017, 8, 18),
       paymentDate: null, value: 55000, person: 'Sebastião Souza' },
-    { type: 'DESPESA', description: 'Aluguel', dueDate: '10/07/2017',
-      paymentDate: '09/07/2017', value: 1750, person: 'Casa Nova Imóveis' },
-    { type: 'DESPESA', description: 'Mensalidade musculação', dueDate: '13/07/2017',
+    { type: 'DESPESA', description: 'Aluguel', dueDate: new Date(2017, 7, 10),
+      paymentDate: new Date(2017, 7, 9), value: 1750, person: 'Casa Nova Imóveis' },
+    { type: 'DESPESA', description: 'Mensalidade musculação', dueDate: new Date(2017, 7, 13),
       paymentDate: null, value: 180, person: 'Academia Top' }
   ];
 }

@@ -51,15 +51,15 @@
                 </td>
                 <td class="col-date">
                   <span class="p-column-title">DueDate</span>
-                  {{ releases.dueDate }}
+                  {{ releases.dueDate | date:'dd/MM/yyyy'}}
                 </td>
                 <td class="col-date">
                   <span class="p-column-title">Payment</span>
-                  {{ releases.paymentDate }}
+                  {{ releases.paymentDate | date:'dd/MM/yyyy'}}
                 </td>
                 <td class="col-value">
                   <span class="p-column-title">Value</span>
-                  <span [ngStyle]="{ color: releases.type === 'DESPESA' ? 'red' : 'blue'}">{{releases.value}}</span>
+                  <span [ngStyle]="{ color: releases.type === 'DESPESA' ? 'red' : 'blue'}">{{releases.value | number}}</span>
                 </td>
                 <td class="col-actions">
                   <p-button class="col-actions-button" icon="pi pi-pencil" pTooltip="Edit" tooltipPosition="top" routerLink="test"></p-button>
